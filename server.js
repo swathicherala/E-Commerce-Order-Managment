@@ -8,12 +8,14 @@ dbConnection()
 const userRouter = require('./routes/userRoutes')
 const productRouter = require('./routes/productRoutes')
 const cartRouter = require('./routes/cartRoutes')
+const orderRouter = require('./routes/orderRoutes')
 const PORT = process.env.PORT
 
 app.use(express.json())
 app.use('/api/users', userRouter)
 app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
+app.use('/api/orders', orderRouter)
 
 app.get('/',(req,res)=>{
     res.send('Welcome to Order Management')
