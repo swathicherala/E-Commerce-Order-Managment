@@ -1,6 +1,6 @@
 const Product = require('../models/Products')
 
-//Create products
+//Create products by admin
 const createProducts = async (req,res) => { 
    try {
     const {name,description,price,stock,category} = req.body

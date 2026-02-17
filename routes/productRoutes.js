@@ -8,7 +8,7 @@ const adminMiddleware = require('../middlewares/admin')
 router.get('/', getProducts)
 router.get('/:id', getProductById)
 
-//Private route
+//Private route --> admin
 router.post('/', authentication,adminMiddleware,createProducts)
 router.put('/:id', authentication,adminMiddleware,updateProduct)
 router.delete('/:id', authentication,adminMiddleware,deleteProduct)

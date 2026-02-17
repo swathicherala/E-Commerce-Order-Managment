@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        minlength: [10, 'Password must be at least 10 characters']
+        minlength: [5, 'Product must be at least 10 characters']
     },
     price: {
         type: Number,

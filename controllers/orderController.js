@@ -11,16 +11,14 @@ const createSelectedProductsOrder = async (req, res) => {
 
     const cart = await Cart.findOne({ userId })
       .populate("items.productId", "name price stock")
-
     if (!cart || cart.items.length === 0) {
       return res.status(400).json({ message: "Cart is empty" })
     }
-    console.log('ProductIddd', productIds)
+    
     // Filter only selected products
     const selectedItems = cart.items.filter(item =>
       productIds.includes(item.productId._id.toString())
     )
-    console.log('Selecteddd', selectedItems)
 
     if (selectedItems.length === 0) {
       return res.status(404).json({ message: "Selected products not found in cart" })
@@ -29,13 +27,17 @@ const createSelectedProductsOrder = async (req, res) => {
     let totalAmount = 0
 
     const orderItems = selectedItems.map(item => {
-      const price = item.productId.price
+      if(item.productId.stock !== 0){
+        const price = item.productId.price
       totalAmount += price * item.quantity
 
       return {
         productId: item.productId._id,
         quantity: item.quantity,
         priceAtPurchase: price
+      }
+      }else{
+        return res.status(400).json({message:"This item is out of stock"})
       }
     })
 
@@ -59,6 +61,20 @@ const createSelectedProductsOrder = async (req, res) => {
   }
 }
 
+const getOrders = async (req, res) => {
+  try {
+    const orders = await Order.find()
+    if(!orders){
+      return res.status(404).json({message:"Orders not found"})
+    }
+    return res.status(200).json(orders)
+  } catch (error) {
+    res.status(500).json(error.message)
+  }
+}
+
+
 module.exports = {
     createSelectedProductsOrder,
+    getOrders
 }
